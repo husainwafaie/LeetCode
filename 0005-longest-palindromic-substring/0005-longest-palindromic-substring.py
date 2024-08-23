@@ -1,19 +1,18 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        rem = []
-        d = {}
+        dct = {}
         for i in range(len(s)):
-            if s[i] in d.keys():
-                d[s[i]].append(i)
+            if s[i] in dct:
+                dct[s[i]].append(i)
             else:
-                d[s[i]] = [i]
-        for i in d.values():
-            for k in i[::-1][:-1]:
-                for j in i[:-1]:
-                    if k > j:
-                        if s[j:k+1] == s[j:k+1][::-1]:
-                            rem.append(s[j:k+1])
-        try:
-            return sorted(rem, key = lambda x:len(x))[-1]
-        except:
-            return s[0]
+                dct[s[i]] = [i]
+        count = 1
+        word = s[0]
+        for i in dct.keys():
+            for k in range(len(dct[i])):
+                for j in range(k+1, len(dct[i])):
+                    if s[dct[i][k]:dct[i][j]+1] == s[dct[i][k]:dct[i][j]+1][::-1]:
+                        if len(s[dct[i][k]:dct[i][j]+1]) > count:
+                            word = s[dct[i][k]:dct[i][j]+1]
+                            count = len(word)
+        return word
