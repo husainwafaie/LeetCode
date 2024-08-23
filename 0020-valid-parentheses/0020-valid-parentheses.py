@@ -1,19 +1,19 @@
 class Solution:
     def isValid(self, s: str) -> bool:
         dct = {
-            "(": ")",
-            "[": "]",
-            "{": "}"
+            '(':')',
+            '[':']',
+            '{':'}'
         }
-        lst = []
+        stack = []
         for i in s:
             if i in dct:
-                lst.append(dct[i])
+                stack.append(dct[i])
             else:
-                if len(lst) > 0 and i == lst[-1]:
-                    lst.pop()
+                if len(stack) > 0 and stack[-1] == i:
+                    stack.pop()
                 else:
                     return False
-        if len(lst) == 0:
-            return True
-        return False
+        if len(stack) > 0:
+            return False
+        return True
