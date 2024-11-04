@@ -1,13 +1,15 @@
 class Solution:
     def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
-        pairs = [(position[i], speed[i]) for i in range(len(speed))]
-        pairs.sort()
+        dct = {}
+        for i in range(len(position)):
+            dct[position[i]] = i
+        position.sort()
         count = 0
-        while len(pairs) > 0:
-            base = (target - pairs[-1][0]) / pairs[-1][1]
-            pairs.pop()
-            while pairs and ((target - pairs[-1][0]) / pairs[-1][1]) <= base:
-                pairs.pop()
+        p = len(position) - 1
+        while p >= 0:
+            threshold = (target - position[p]) / speed[dct[position[p]]]
+            while p - 1 >= 0 and ((target - position[p-1]) / speed[dct[position[p-1]]]) <= threshold:
+                p -= 1
+            p -= 1
             count += 1
-
         return count
